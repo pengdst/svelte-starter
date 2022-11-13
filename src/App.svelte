@@ -1,31 +1,27 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
+  import { Router, Route, link } from 'svelte-routing';
+  import Home from './pages/Home.svelte';
+  import Counter from './pages/Counter.svelte';
+
+  import { QueryClient, QueryClientProvider } from '@sveltestack/svelte-query';
+  const queryClient = new QueryClient();
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer"> 
-      <img src="/vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer"> 
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
+<nav class="flex justify-center space-x-1">
+  <a href="/" use:link>
+    <button class="border px-3 py-1 rounded bg-blue-500 text-white">Home</button>
+  </a>
+  <a href="/counter" use:link>
+    <button class="border px-3 py-1 rounded bg-blue-500 text-white">Counter</button>
+  </a>
+</nav>
 
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
-</main>
+<QueryClientProvider client={queryClient}>
+  <Router>
+    <Route path='/'><Home /></Route>
+    <Route path='/counter'><Counter /></Route>
+  </Router>
+</QueryClientProvider>
 
 <style>
   .logo {
